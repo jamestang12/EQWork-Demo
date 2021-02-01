@@ -24,7 +24,7 @@ module.exports = (req, res, next) => {
         RequestCountPerMinutes.forEach(item => {
           thresHold = thresHold + item.counter
         })
-        if (thresHold >= 5) {
+        if (thresHold >= 1005) {
           return res.json({ error: 1, message: "throttle limit exceeded" })
         } else {
           let isFound = false

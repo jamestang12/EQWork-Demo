@@ -12,6 +12,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/icons": "^4.11.2",
     "config": "^3.3.3",
     "express": "^4.17.1",
     "moment": "^2.29.1",
