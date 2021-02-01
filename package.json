@@ -17,6 +17,7 @@
     "express": "^4.17.1",
     "moment": "^2.29.1",
     "pg": "^8.5.1",
+    "react-chartjs-2": "^2.11.1",
     "redis": "^3.0.2"
   },
   "devDependencies": {

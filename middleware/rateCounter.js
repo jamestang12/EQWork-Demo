@@ -23,12 +23,12 @@ module.exports = (req, res, next) => {
         RequestCountPerMinutes.forEach(item => {
           thresHold = thresHold + item.counter
         })
-        if (thresHold >= 5) {
+        if (thresHold >= 105) {
           return res.status(400).json({  msg: "throttle limit exceeded" })
         } else {
           let isFound = false
           data.forEach(element => {
-            console.log(element)
+            
             if (currentTime.requestTime === currentTime) {
               console.log('sss')
               isFound = true
@@ -41,7 +41,6 @@ module.exports = (req, res, next) => {
               counter: 1,
             })
           }
-          console.log(data)
           redisClient.set(req.connection.remoteAddress, JSON.stringify(data))
           next()
         }

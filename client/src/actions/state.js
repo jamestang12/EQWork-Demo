@@ -1,4 +1,5 @@
 import {GET_DAILY_STATE, GET_HOURLY_STATE, GET_ERROR} from './type'
+import {setAlert} from './alert'
 import axios from "axios";
 
 
@@ -10,12 +11,7 @@ export const getDailyState = () => async(dispatch) => {
             payload: res.data,
         })
     } catch (error) {
-        dispatch({
-            type: GET_ERROR,
-            payload:{
-                msg: error.response.statusText,
-                status: error.response.status,
-            }
-        })
+        console.log(error)
+        dispatch(setAlert("Throttle limit exceeded", "danger"))
     }
 }
