@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react'
 import {connect} from 'react-redux'
-import {setAlert} from '../../actions/alert'
+import {getDailyState} from '../../actions/state'
 
-const Charts = ({setTitle, setAlert}) => {
+const Charts = ({getDailyState, stats,setTitle }) => {
+    useEffect(() => {
+        getDailyState();
+    },[])
     useEffect(() => {
         setTitle("Charts")
     },[])
@@ -12,5 +15,7 @@ const Charts = ({setTitle, setAlert}) => {
         </div>
     )
 }
-
-export default connect(null, {setAlert})(Charts)
+const mapStateToProps = state => ({
+    stats: state.stats
+})
+export default connect(mapStateToProps, {getDailyState})(Charts)
