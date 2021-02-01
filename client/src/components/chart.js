@@ -22,7 +22,7 @@ const Chart = ({statsDaily, stateTitle}) => {
         let value = data.datasets
         value[0].data = statsDaily
         setData({...data, data:value})
-        setTitle(`Daily stats: ${stateTitle}`)
+        setTitle(stateTitle)
     }, [statsDaily, stateTitle])
 
     return (

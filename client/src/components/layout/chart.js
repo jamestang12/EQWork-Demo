@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import {connect} from 'react-redux'
 import {getDailyState} from '../../actions/state'
+import {getDailyEvent} from '../../actions/event'
 import Chart from '../chart'
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
@@ -19,6 +19,8 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(2),
       textAlign: '',
       color: theme.palette.text.secondary,
+      minHeight: 400
+      
     },
     formControl: {
         margin: theme.spacing(1),
@@ -29,11 +31,12 @@ const useStyles = makeStyles((theme) => ({
       },
   }));
 
-const Charts = ({getDailyState, stats,setTitle }) => {
+const Charts = ({getDailyState, getDailyEvent,stats, events,setTitle }) => {
     const classes = useStyles();
     const [statsDaily, SetStatsDaily] = useState([])
     const [stateTitle, setStateTitle] = useState("impressions")
     const [stateOption, setStateOption] = useState(10);
+    const [eventDaily, setEventDaily] = useState([])
 
     const handleChange = (event) => {
     //   setAge(event.target.value);
@@ -68,24 +71,28 @@ const Charts = ({getDailyState, stats,setTitle }) => {
 
     useEffect(() => {
         getDailyState();
+        getDailyEvent();
         setTitle("Charts")
         
-    },[getDailyState])
+    },[getDailyState, getDailyEvent])
 
     useEffect(() => {
         const value = stats.statsDaily.map((item) => {
             return item.impressions
         })
+        const eventValue = events.eventDaily.map((item) => {
+            return item.events
+        })
         SetStatsDaily(value)
-    }, [stats.loading, SetStatsDaily])
+        setEventDaily(eventValue)
+    }, [stats.loading, SetStatsDaily, setEventDaily, events.loading])
 
-   
     return (
         <div className={classes.root}>
-           {!stats.loading && statsDaily.length != 0?  <Grid container spacing={3}>
+           {!stats.loading && statsDaily.length != 0 && !events.loading && eventDaily.length != 0 ?  <Grid container spacing={3}>
                 <Grid item xs={6}>
                     <Paper className={classes.paper}>
-                    <Chart statsDaily={statsDaily} stateTitle={stateTitle}/>
+                    <Chart statsDaily={statsDaily} stateTitle={`Average daily stats: ${stateTitle}`}/>
                     <FormControl variant="outlined" className={classes.formControl}>
                         <InputLabel id="demo-simple-select-outlined-label">Type of data</InputLabel>
                             <Select
@@ -107,7 +114,7 @@ const Charts = ({getDailyState, stats,setTitle }) => {
                 </Grid>
                 <Grid item xs={6}>
                     <Paper className={classes.paper}>
-                        {/* <Chart/> */}
+                      <Chart statsDaily={eventDaily} stateTitle={`Average daily events`}/>
                     </Paper>
                 </Grid>
             </Grid>:
@@ -119,6 +126,7 @@ const Charts = ({getDailyState, stats,setTitle }) => {
     )
 }
 const mapStateToProps = state => ({
-    stats: state.stats
+    stats: state.stats,
+    events: state.event
 })
-export default connect(mapStateToProps, {getDailyState})(Charts)
+export default connect(mapStateToProps, {getDailyState, getDailyEvent})(Charts)
