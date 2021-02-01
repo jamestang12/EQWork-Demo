@@ -2,14 +2,12 @@ const redis = require("redis")
 const moment = require("moment")
 const redisClient = redis.createClient()
 module.exports = (req, res, next) => {
-   const ip = req.connection.remoteAddress;
-   console.log(ip)
   redisClient.exists(req.connection.remoteAddress, (err, reply) => {
-   
     if (err) {
       console.log("problem with redis")
       system.exit(0)
     }
+  
     if (reply === 1) {
       redisClient.get(req.connection.remoteAddress, (err, redisResponse) => {
         let data = JSON.parse(redisResponse)
@@ -21,15 +19,18 @@ module.exports = (req, res, next) => {
           return item.requestTime > lessThanMinuteAgo
         })
         let thresHold = 0
+        
         RequestCountPerMinutes.forEach(item => {
           thresHold = thresHold + item.counter
         })
-        if (thresHold >= 1005) {
-          return res.json({ error: 1, message: "throttle limit exceeded" })
+        if (thresHold >= 5) {
+          return res.status(400).json({  msg: "throttle limit exceeded" })
         } else {
           let isFound = false
           data.forEach(element => {
-            if (element.requestTime) {
+            console.log(element)
+            if (currentTime.requestTime === currentTime) {
+              console.log('sss')
               isFound = true
               element.counter++
             }
@@ -40,6 +41,7 @@ module.exports = (req, res, next) => {
               counter: 1,
             })
           }
+          console.log(data)
           redisClient.set(req.connection.remoteAddress, JSON.stringify(data))
           next()
         }
