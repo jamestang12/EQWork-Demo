@@ -52,8 +52,9 @@ app.get('/stats/hourly', (req, res, next) => {
     SELECT date, hour, impressions, clicks, revenue
     FROM public.hourly_stats
     ORDER BY date, hour
-    LIMIT 168;
+    LIMIT 128;
   `
+  //128
   return next()
 }, queryHandler)
 
