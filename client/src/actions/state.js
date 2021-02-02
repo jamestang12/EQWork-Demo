@@ -15,3 +15,17 @@ export const getDailyState = () => async(dispatch) => {
         dispatch(setAlert("Throttle limit exceeded", "danger"))
     }
 }
+
+export const getHourlyState = () => async(dispatch) => {
+    try {
+        const res = await axios.get('/stats/hourly');
+        dispatch({
+            type: GET_HOURLY_STATE,
+            payload: res.data,
+        })
+    } catch (error) {
+        console.log(error)
+        dispatch(setAlert("Throttle limit exceeded", "danger"))
+    }
+}
+
