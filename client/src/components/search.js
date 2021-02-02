@@ -3,7 +3,15 @@ import TextField from '@material-ui/core/TextField';
 
 const Search = ({orgValue, currentValue, setCurrentValue}) => {
     const onSearch = (e) => {
-        orgValue.filter(item => {})
+        if(e.target.value === ""){
+            setCurrentValue(orgValue)
+        }else{
+            const result = orgValue.filter(value => {
+                const object = Object.values(value).toString().toLowerCase()
+                return object.includes((e.target.value).toLowerCase())
+            })
+            setCurrentValue(result)
+        }        
     }
 
     return (

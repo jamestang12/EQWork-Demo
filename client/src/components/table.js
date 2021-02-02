@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -17,17 +16,15 @@ const useStyles = makeStyles({
     },
   });
 
-const Tables = ({dataValue}) => {
+const Tables = ({dataValue, orgValue}) => {
     const classes = useStyles();
     const [columns, setColums] = useState([])
     const [rows, setRows] = useState([])
 
     useEffect(() => {
-        setRows(dataValue)
         const col = []
-        Object.entries(dataValue[0]).map(([key,value]) => {
-
-            if(key == "revenue"){
+        Object.entries(orgValue[0]).map(([key,value]) => {
+            if(key === "revenue" || key === "events"){
                 col.push({id: key, label: key, align: 'right',format: (v) => parseInt(v).toFixed(2)})
 
             }else{
@@ -37,6 +34,10 @@ const Tables = ({dataValue}) => {
         setColums(col)
         
     },[])
+
+    useEffect(() => {
+        setRows(dataValue)
+    },[dataValue])
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -60,7 +61,7 @@ const Tables = ({dataValue}) => {
           <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
-            <TableRow>
+            <TableRow >
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
