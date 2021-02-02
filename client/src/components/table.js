@@ -25,7 +25,7 @@ const Tables = ({dataValue, orgValue}) => {
         const col = []
         Object.entries(orgValue[0]).map(([key,value]) => {
             if(key === "revenue" || key === "events"){
-                col.push({id: key, label: key, align: 'right',format: (v) => parseInt(v).toFixed(2)})
+                col.push({id: key, label: key, align: 'right'})
 
             }else{
                 col.push({id: key, label: key})
