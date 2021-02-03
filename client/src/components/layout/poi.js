@@ -102,7 +102,7 @@ const POI = ({setTitle, pois, getPoi}) => {
             {!pois.loading && poiItem.length != 0? 
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
-                        <Paper className={classes.paper} style={{ width: "80vw", height: "80vh" }}>
+                        <Paper className={classes.paper} style={{  height: "80vh" }}>
                             <WrappedMap
                                 googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCedJnV1l9qg-ZObjZLfBEbnoY8Uorr6d4&v=3.exp&libraries=geometry,drawing,places" 
                                 loadingElement={<div style={{ height: `80%` }} />}
